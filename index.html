@@ -64,6 +64,34 @@
         font-weight: bold;
         padding: 5px 0; /* Add some vertical padding */
     }
+
+    .nav-linkk {
+        font-size: 1.2rem; /* Larger font size */
+        text-decoration: none; /* Remove underline */
+        color: #fff; /* Text color (white) */
+        font-weight: bold; /* Bold text */
+        padding: 10px 20px; /* Padding for button-like appearance */
+        border-radius: 8px; /* Rounded corners */
+        background-color: #007bff; /* Primary blue background */
+        display: inline-block; /* Makes it behave like a button */
+        transition: all 0.3s ease; /* Smooth transitions */
+        margin-top: 30px;
+    }
+
+    /* Hover Effect */
+    .nav-linkk:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        color: #f8f9fa; /* Slightly lighter text on hover */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+        text-decoration: none; /* Ensure no underline on hover */
+    }
+
+    /* Active State */
+    .nav-linkk:active {
+        background-color: #003d80; /* Even darker blue for active state */
+        box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.3); /* Inset shadow effect */
+        transform: scale(0.95); /* Slightly shrink button */
+    }
     </style>
 
 </head>
@@ -73,7 +101,11 @@
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <!-- Left side: Brand name -->
             <span class="navbar-brand mb-0 h1">Speech Pal</span>
-    
+            
+
+            <div class="btn btn-info">
+                Edit
+            </div>
             <!-- Right side: Name and Image -->
             <div class="d-flex align-items-center">
                 <span class="me-2">Morgan</span>
@@ -89,21 +121,27 @@
                 <i class="bi bi-house-door"></i>
                 <div class="small">Home</div>
             </a>
-            <!-- Search -->
-            <a href="#" class="nav-link text-center">
-                <i class="bi bi-search"></i>
-                <div class="small">Sentences</div>
-            </a>
-            <!-- Add -->
-            <a href="#" class="nav-link text-center">
-                <i class="bi bi-plus-circle"></i>
-                <div class="small">Phrases</div>
-            </a>
             <!-- Notifications -->
-            <a href="#" class="nav-link text-center">
-                <i class="bi bi-bell"></i>
+            <a href="#" class="nav-link text-center" data-bs-toggle="offcanvas" data-bs-target="#sideMenu" aria-controls="sideMenu">
+                <i class="bi bi-bell disabled"></i>
                 <div class="small">Menu</div>
             </a>
+            
+            <!-- Offcanvas Sidebar -->
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="sideMenu" aria-labelledby="sideMenuLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="sideMenuLabel">SpeechPal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="nav-linkk">Donate to keep the app going!</a></li>
+                        <li><a href="#" class="nav-linkk">Register / Login</a></li>
+                        <li><a href="#" class="nav-linkk">Profile</a></li>
+                        <li><a href="#" class="nav-linkk">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -234,6 +272,237 @@
                 </button>
             </div>
 
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Mom">
+                    <div class="button-image-container">
+                        <img src="images/mom.jpg" alt="Crisps">
+                    </div>
+                    <div class="button-text-container">
+                        MOM
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Matt">
+                    <div class="button-image-container">
+                        <img src="images/Matt.jpg" alt="Crisps">
+                    </div>
+                    <div class="button-text-container">
+                        MATT
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Jack">
+                    <div class="button-image-container">
+                        <img src="images/jack.jpg" alt="Crisps">
+                    </div>
+                    <div class="button-text-container">
+                        JACK
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Hayden">
+                    <div class="button-image-container">
+                        <img src="images/Hayden.jpg" alt="Hayden">
+                    </div>
+                    <div class="button-text-container">
+                        HAYDEN
+                    </div>
+                </button>
+            </div>
+
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Riley">
+                    <div class="button-image-container">
+                        <img src="images/Riley.jpg" alt="Riley">
+                    </div>
+                    <div class="button-text-container">
+                        RILEY
+                    </div>
+                </button>
+            </div>
+
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Nan">
+                    <div class="button-image-container">
+                        <img src="images/Nan.jpg" alt="Nan">
+                    </div>
+                    <div class="button-text-container">
+                        NAN
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Grandad">
+                    <div class="button-image-container">
+                        <img src="images/Grandad.jpg" alt="Grandad">
+                    </div>
+                    <div class="button-text-container">
+                        GRANDAD
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Bed">
+                    <div class="button-image-container">
+                        <img src="images/Bed.jpg" alt="Bed">
+                    </div>
+                    <div class="button-text-container">
+                        BED
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Sleep">
+                    <div class="button-image-container">
+                        <img src="images/Sleep.jpg" alt="Sleep">
+                    </div>
+                    <div class="button-text-container">
+                        SLEEP
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Shower">
+                    <div class="button-image-container">
+                        <img src="images/Shower.jpg" alt="Shower">
+                    </div>
+                    <div class="button-text-container">
+                        SHOWER
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Bath">
+                    <div class="button-image-container">
+                        <img src="images/Bath.jpg" alt="Bath">
+                    </div>
+                    <div class="button-text-container">
+                        BATH
+                    </div>
+                </button>
+            </div>
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Bus">
+                    <div class="button-image-container">
+                        <img src="images/Bus.jpg" alt="Bus">
+                    </div>
+                    <div class="button-text-container">
+                        BUS
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Shoes">
+                    <div class="button-image-container">
+                        <img src="images/Shoes.webp" alt="Shoes">
+                    </div>
+                    <div class="button-text-container">
+                        SHOES
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Coat">
+                    <div class="button-image-container">
+                        <img src="images/Coat.jpg" alt="Coat">
+                    </div>
+                    <div class="button-text-container">
+                        COAT
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Brush Teeth">
+                    <div class="button-image-container">
+                        <img src="images/brushteeth.jpg" alt="Brush Teeth">
+                    </div>
+                    <div class="button-text-container">
+                        BRUSH TEETH
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Toilet">
+                    <div class="button-image-container">
+                        <img src="images/Toilet.jpg" alt="Toilet">
+                    </div>
+                    <div class="button-text-container">
+                        TOILET
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Ear Defenders">
+                    <div class="button-image-container">
+                        <img src="images/Eardefs.jpg" alt="Ear Defenders">
+                    </div>
+                    <div class="button-text-container">
+                        EAR DEFENDERS
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Chinese Takeaway">
+                    <div class="button-image-container">
+                        <img src="images/Chinesetak.jpg" alt="Chinese Takeaway">
+                    </div>
+                    <div class="button-text-container">
+                        CHINESE TAKEAWAY
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Chip Shop">
+                    <div class="button-image-container">
+                        <img src="images/Chipshop.jpeg" alt="Chip Shop">
+                    </div>
+                    <div class="button-text-container">
+                        CHIP SHOP
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Home">
+                    <div class="button-image-container">
+                        <img src="images/Home.jpg" alt="Home">
+                    </div>
+                    <div class="button-text-container">
+                        HOME
+                    </div>
+                </button>
+            </div>
+
+            <div class="col button-container">
+                <button class="btn btn-primary grid-button button-with-sections"  data-text="Nerry Christmas">
+                    <div class="button-image-container">
+                        <img src="images/Merryxmas.jpg" alt="Merry Christmas">
+                    </div>
+                    <div class="button-text-container">
+                        MERRY CHRISTMAS
+                    </div>
+                </button>
+            </div>
 
 
             <div class="col button-container"><button class="btn btn-primary grid-button" data-text="I">I</button></div>
