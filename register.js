@@ -1,25 +1,29 @@
-document.getElementById("registerForm").addEventListener("submit", function (e) {
-    e.preventDefault();
+// Handle form submissions for profile registration
+document.getElementById("userProfileForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the form from reloading the page
 
-    // Get user input
-    const name = document.getElementById("nameInput").value;
-    const imageFile = document.getElementById("imageInput").files[0];
+    const userName = document.getElementById("userName").value;
+    const userImage = document.getElementById("userImage").files[0];
 
-    // Update UI
-    const userNameElement = document.getElementById("userName");
+    // Save the user profile to IndexedDB
+    saveProfileToDB(userName, userImage);
+
+    // Update profile in the UI after saving
+    const profileImageUrl = URL.createObjectURL(userImage);
+    document.getElementById("userName").textContent = userName;
     const userImageElement = document.getElementById("userImage");
+    userImageElement.src = profileImageUrl;
+    userImageElement.classList.remove("d-none");
 
-    userNameElement.textContent = `Hi ${name}`;
-    if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            userImageElement.src = e.target.result;
-            userImageElement.classList.remove("d-none");
-        };
-        reader.readAsDataURL(imageFile);
-    }
+    // Close the modal
+    $('#registerModal').modal('hide');
+});
 
-    // Close modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById("registerModal"));
-    modal.hide();
+
+document.getElementById('saveButton').addEventListener('click', function(event) {
+    // Prevent form submission if needed
+    event.preventDefault(); 
+
+    // Your save functionality here
+    console.log('Button clicked');
 });

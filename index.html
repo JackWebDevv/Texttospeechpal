@@ -132,17 +132,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="registerForm">
-                    <div class="mb-3">
-                        <label for="nameInput" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="nameInput" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="imageInput" class="form-label">Profile Image</label>
-                        <input type="file" class="form-control" id="imageInput" accept="image/*">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Register</button>
-                </form>
+                <form id="userProfileForm">
+                    <label for="userName">User Name:</label>
+                    <input type="text" id="userName" required>
+                  
+                    <label for="userImage">Profile Image:</label>
+                    <input type="file" id="userImage" accept="image/*" required>
+                  
+                    <button type="submit" id="saveButton" class="btn btn-primary">Save Profile</button>
+                  </form>
             </div>
         </div>
     </div>
@@ -243,12 +241,19 @@
 <script>
 // Open IndexedDB
 let db;
-const request = indexedDB.open("SoundsDB", 1);
+const request = indexedDB.open("SoundsAndProfilesDB", 1);
 
 request.onupgradeneeded = function(event) {
     db = event.target.result;
+    
+    // Create an object store for sounds if it doesn't exist
     if (!db.objectStoreNames.contains("sounds")) {
         db.createObjectStore("sounds", { keyPath: "id", autoIncrement: true });
+    }
+
+    // Create an object store for user profiles if it doesn't exist
+    if (!db.objectStoreNames.contains("profiles")) {
+        db.createObjectStore("profiles", { keyPath: "id", autoIncrement: true });
     }
 };
 
@@ -267,7 +272,7 @@ function saveSoundToDB(soundName, soundImage) {
 
     const soundData = {
         name: soundName,
-        image: URL.createObjectURL(soundImage), // Image URL for the file
+        image: URL.createObjectURL(soundImage),
         dateAdded: new Date().toISOString()
     };
 
@@ -282,7 +287,43 @@ function saveSoundToDB(soundName, soundImage) {
     };
 }
 
-// Listen for form submission to save data
+// Save user profile data to IndexedDB
+function saveProfileToDB(userName, userImage) {
+    const transaction = db.transaction(["profiles"], "readwrite");
+    const store = transaction.objectStore("profiles");
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const profileData = {
+            name: userName,
+            image: event.target.result,  // File content (base64 data URL)
+            dateAdded: new Date().toISOString()
+        };
+
+        const request = store.add(profileData);
+
+        request.onsuccess = function() {
+            console.log("User profile saved successfully!");
+        };
+
+        request.onerror = function(event) {
+            console.log("Error saving user profile to DB", event);
+        };
+    };
+    reader.readAsDataURL(userImage);  // Read the image file as a Data URL
+}
+
+// Handle form submissions
+document.getElementById("userProfileForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the form from reloading the page
+
+    const userName = document.getElementById("userName").value;
+    const userImage = document.getElementById("userImage").files[0];
+
+    // Save the user profile to IndexedDB
+    saveProfileToDB(userName, userImage);
+});
+
 document.getElementById("addSoundForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent the form from reloading the page
 
@@ -292,7 +333,8 @@ document.getElementById("addSoundForm").addEventListener("submit", function(even
     // Save the sound to IndexedDB
     saveSoundToDB(soundName, soundImage);
 });
-
+</script>
+<script>
 // Save sound data when the user clicks the 'Save Sound' button
 document.getElementById("saveButton").addEventListener("click", function() {
     const soundName = "New Sound"; // Replace with dynamic data
@@ -302,7 +344,7 @@ document.getElementById("saveButton").addEventListener("click", function() {
     saveSoundToDB(soundName, soundImage);
 });
 
-// Prompt user to confirm before saving
+// Prompt user to confirm before saving sound
 function saveSoundWithConfirmation(soundName, soundImage) {
     if (confirm("Do you want to save this sound?")) {
         saveSoundToDB(soundName, soundImage);
@@ -311,10 +353,9 @@ function saveSoundWithConfirmation(soundName, soundImage) {
     }
 }
 
-// Auto-save functionality
+// Auto-save functionality for sound data
 let autoSaveTimer;
 
-// Call this function when the user makes an edit
 function startAutoSaveTimer(soundName, soundImage) {
     clearTimeout(autoSaveTimer); // Clear any existing timers
     autoSaveTimer = setTimeout(() => {
@@ -322,12 +363,13 @@ function startAutoSaveTimer(soundName, soundImage) {
     }, 5000); // 5000 ms = 5 seconds
 }
 
-// Example usage: When user starts typing, auto-save after 5 seconds
 document.getElementById("soundName").addEventListener("input", function() {
     const soundName = document.getElementById("soundName").value;
     const soundImage = document.getElementById("soundImage").files[0];
     startAutoSaveTimer(soundName, soundImage);
 });
+
+
 </script>
 
             </div>
