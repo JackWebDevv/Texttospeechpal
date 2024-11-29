@@ -103,15 +103,47 @@
             <span class="navbar-brand mb-0 h1">Speech Pal</span>
             
 
-            <div class="btn btn-info">
+            <div class="btn btn-info" id="editModeToggle">
                 Edit
             </div>
-            <!-- Right side: Name and Image -->
-            <div class="d-flex align-items-center">
-                <span class="me-2">Morgan</span>
-                <img src="taking-better-pictures-scaled.jpg" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px;">
+            <script src="edit.js"></script>
+
+          <!-- Register Button -->
+<div class="btn btn-info" id="editModeToggle" data-bs-toggle="modal" data-bs-target="#registerModal">
+    Register
+</div>
+
+<!-- Right Side: Name and Image -->
+<div class="d-flex align-items-center" id="userInfo">
+    <span class="me-2" id="userName"></span>
+    <img src="" alt="Profile" id="userImage" class="rounded-circle d-none" style="width: 40px; height: 40px;">
+</div>
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label for="nameInput" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="nameInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imageInput" class="form-label">Profile Image</label>
+                        <input type="file" class="form-control" id="imageInput" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
             </div>
         </div>
+    </div>
+</div>
+<script src="register.js"></script>
     </nav>
 
     <nav class="navbar bg-body-tertiary fixed-bottom">
@@ -135,6 +167,16 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="list-unstyled">
+
+                        <div class="donation-section text-center my-4">
+                            <h3>Support Our App</h3>
+                            <p>Your contributions help us keep this app running and improve its features.</p>
+                            <a href="https://www.paypal.com/donate?hosted_button_id=YOUR_BUTTON_ID" target="_blank" class="btn btn-primary">
+                                <i class="bi bi-heart-fill"></i> Donate
+                            </a>
+                        </div>
+
+
                         <li><a href="#" class="nav-linkk">Donate to keep the app going!</a></li>
                         <li><a href="#" class="nav-linkk">Register / Login</a></li>
                         <li><a href="#" class="nav-linkk">Profile</a></li>
@@ -146,7 +188,59 @@
     </nav>
 
 
+
     <div class="container my-4">
+
+
+        
+
+
+        <div class="row row-cols-6 g-2">
+    <!-- Pronouns -->
+    <div class="col button-container">
+        <button 
+            class="btn btn-primary grid-button button-with-sections" 
+            data-bs-toggle="modal" 
+            data-bs-target="#addSoundModal">
+            <div class="button-image-container">
+                <img src="images/new.avif" alt="Doctor Pepper">
+            </div>
+            <div class="button-text-container">
+                NEW BUTTON
+            </div>
+        </button>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="addSoundModal" tabindex="-1" aria-labelledby="addSoundModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSoundModalLabel">Add New Sound</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addSoundForm">
+                    <div class="mb-3">
+                        <label for="soundName" class="form-label">Sound Name</label>
+                        <input type="text" class="form-control" id="soundName" placeholder="Enter sound name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="soundImage" class="form-label">Upload Image (Optional)</label>
+                        <input type="file" class="form-control" id="soundImage" accept="image/*">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="addSoundForm" class="btn btn-primary">Add Sound</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="new.js"></script>
+
         <div class="row row-cols-6 g-2">
             <!-- Pronouns -->
             <div class="col button-container">
@@ -430,7 +524,7 @@
             <div class="col button-container">
                 <button class="btn btn-primary grid-button button-with-sections"  data-text="Brush Teeth">
                     <div class="button-image-container">
-                        <img src="images/brushteeth.jpg" alt="Brush Teeth">
+                        <img src="images/brushteet h.jpg" alt="Brush Teeth">
                     </div>
                     <div class="button-text-container">
                         BRUSH TEETH
