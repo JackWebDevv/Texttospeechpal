@@ -1,58 +1,30 @@
-let isEditMode = false;
+document.getElementById("editModeToggle").addEventListener("click", function () {
+    // Open the modal (Bootstrap handles this via `data-bs-toggle` automatically)
 
-document.getElementById('editModeToggle').addEventListener('click', function () {
-    isEditMode = !isEditMode;
+    // Get the current profile information from the navbar
+    const greetingElement = document.getElementById("greeting");
+    const profilePicElement = document.getElementById("profilePic");
 
-    const buttons = document.querySelectorAll('.grid-button');
-    buttons.forEach(button => {
-        if (isEditMode) {
-            // Add Edit and Remove icons
-            button.classList.add('editable');
+    const currentName = greetingElement.textContent.replace("Hello, ", "").replace("!", "").trim();
+    const currentImage = profilePicElement.src;
 
-            // Create Remove Icon
-            if (!button.querySelector('.remove-icon')) {
-                const removeIcon = document.createElement('span');
-                removeIcon.textContent = '❌'; // Or use an icon font like FontAwesome
-                removeIcon.classList.add('remove-icon');
-                removeIcon.style.cssText = 'position: absolute; top: 5px; right: 5px; cursor: pointer; color: red;';
-                removeIcon.addEventListener('click', () => {
-                    button.parentElement.remove(); // Remove the button's container
-                });
-                button.appendChild(removeIcon);
-            }
+    // Pre-fill the modal form fields with current values
+    document.getElementById("registerUserName").value = currentName;
 
-            // Make button text editable
-            const buttonText = button.querySelector('.button-text-container');
-            buttonText.setAttribute('contenteditable', 'true');
-            buttonText.style.border = '1px dashed #ccc';
-        } else {
-            // Remove editable styles and icons
-            button.classList.remove('editable');
-            const removeIcon = button.querySelector('.remove-icon');
-            if (removeIcon) {
-                removeIcon.remove();
-            }
+    if (currentImage) {
+        // Display the image as a preview (if available)
+        const fileInput = document.getElementById("registerUserImage");
+        const previewImg = document.createElement("img");
+        previewImg.src = currentImage;
+        previewImg.alt = "Current Profile Picture";
+        previewImg.style.width = "100px";
+        previewImg.style.height = "100px";
+        previewImg.classList.add("mt-2", "d-block");
 
-            // Disable text editing
-            const buttonText = button.querySelector('.button-text-container');
-            buttonText.removeAttribute('contenteditable');
-            buttonText.style.border = 'none';
+        // Append the preview to the modal if not already appended
+        const form = fileInput.closest("form");
+        if (!form.querySelector("img")) {
+            form.appendChild(previewImg);
         }
-    });
-
-    // Update Edit Button Text
-    this.textContent = isEditMode ? 'Save Changes' : 'Edit';
+    }
 });
-
-// Enable Drag-and-Drop Reordering using Sortable.js
-const buttonGrid = document.getElementById('buttonGrid');
-
-if (typeof Sortable !== 'undefined') {
-    new Sortable(buttonGrid, {
-        animation: 150,
-        ghostClass: 'sortable-ghost', // Class for dragging item
-        handle: '.grid-button',      // Only allow dragging via buttons
-    });
-} else {
-    console.warn('Sortable.js is not loaded. Please include it in your project.');
-}

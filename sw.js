@@ -1,44 +1,32 @@
-const CACHE_NAME = "pwa-cache-v1";
 const urlsToCache = [
-    "/",
-    "index.html",
-    "styles.css",
-    "script.js",
-    "logo.PNG",
-    "logo.PNG"
-
+    '/',
+    '/index.html',
+    '/styles.css',
+    '/app.js',
+    '/image.png'  // Example
 ];
 
-// Install service worker and cache files
-self.addEventListener("install", event => {
+self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
-            return cache.addAll(urlsToCache);
-        })
-    );
-});
-
-// Serve cached files
-self.addEventListener("fetch", event => {
-    event.respondWith(
-        caches.match(event.request).then(response => {
-            return response || fetch(event.request);
-        })
-    );
-});
-
-// Update cache when files change
-self.addEventListener("activate", event => {
-    const cacheWhitelist = [CACHE_NAME];
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (!cacheWhitelist.includes(cacheName)) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
+        caches.open('my-cache-v1')
+            .then(cache => {
+                return cache.addAll(urlsToCache)
+                    .then(() => {
+                        console.log('All resources cached successfully');
+                    })
+                    .catch(error => {
+                        console.error('Failed to cache:', error);
+                        // Iterate through urlsToCache to find the culprit
+                        urlsToCache.forEach((url, index) => {
+                            fetch(url).then(response => {
+                                if (!response.ok) {
+                                    console.error(`URL ${index}: ${url} failed with status ${response.status}`);
+                                }
+                            }).catch(err => {
+                                console.error(`URL ${index}: ${url} failed to fetch: ${err}`)
+                            })
+                        })
+                    });
+            })
     );
 });

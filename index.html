@@ -100,53 +100,55 @@
 
 </head>
 <body>
-
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <!-- Left side: Brand name -->
             <span class="navbar-brand mb-0 h1">Speech Pal</span>
-            
-
+    
+            <!-- Edit Button -->
             <div class="btn btn-info" id="editModeToggle">
                 Edit
             </div>
-            <script src="edit.js"></script>
-
-          <!-- Register Button -->
-<div class="btn btn-info" id="editModeToggle" data-bs-toggle="modal" data-bs-target="#registerModal">
-    Register
-</div>
-
-<!-- Right Side: Name and Image -->
-<div class="d-flex align-items-center" id="userInfo">
-    <span class="me-2" id="userName"></span>
-    <img src="" alt="Profile" id="userImage" class="rounded-circle d-none" style="width: 40px; height: 40px;">
-</div>
-
-<!-- Register Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Register</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    
+            <!-- Register Button -->
+            <div class="btn btn-info" id="registerButton" data-bs-toggle="modal" data-bs-target="#registerModal">
+                Register
             </div>
-            <div class="modal-body">
-                <form id="userProfileForm">
-                    <label for="userName">User Name:</label>
-                    <input type="text" id="userName" required>
-                  
-                    <label for="userImage">Profile Image:</label>
-                    <input type="file" id="userImage" accept="image/*" required>
-                  
-                    <button type="submit" id="saveButton" class="btn btn-primary">Save Profile</button>
-                  </form>
+    
+            <!-- Right Side: Name and Image -->
+            <div class="d-flex align-items-center" id="userInfo">
+                <span class="me-2" id="greeting"></span>
+                <img src="" alt="Profile" id="profilePic" class="rounded-circle d-none" style="width: 40px; height: 40px;">
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Modal for Registration -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userProfileForm">
+                        <label for="registerUserName">User Name:</label>
+                        <input type="text" id="registerUserName" placeholder="Enter your username" required><br>
+                        
+                        <label for="registerUserImage">Profile Image:</label>
+                        <input type="file" id="registerUserImage" accept="image/*" required><br>
+    
+                        <button type="submit" class="btn btn-primary mt-3">Register</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script src="register.js"></script>
-    </nav>
+    
+    <!-- External Scripts -->
+    <script src="edit.js"></script>
+    <script src="register.js"></script>
 
     <nav class="navbar bg-body-tertiary fixed-bottom">
         <div class="container-fluid d-flex justify-content-around">
@@ -193,188 +195,165 @@
 
     <div class="container my-4">
 
-
-        
-
-
         <div class="row row-cols-6 g-2">
-    <!-- Pronouns -->
-    <div class="col button-container">
-        <button 
-            class="btn btn-primary grid-button button-with-sections" 
-            data-bs-toggle="modal" 
-            data-bs-target="#addSoundModal">
-            <div class="button-image-container">
-                <img src="images/new.avif" alt="Doctor Pepper">
+            <div class="col button-container">
+                <button 
+                    class="btn btn-primary grid-button button-with-sections" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#addSoundModal">
+                    <div class="button-image-container">
+                        <img src="images/new.avif" alt="New Button">
+                    </div>
+                    <div class="button-text-container">
+                        NEW BUTTON
+                    </div>
+                </button>
             </div>
-            <div class="button-text-container">
-                NEW BUTTON
+        </div>
+        
+        <!-- Modal Structure -->
+        <div class="modal fade" id="addSoundModal" tabindex="-1" aria-labelledby="addSoundModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addSoundModalLabel">Add New Sound</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add Sound Form -->
+                        <form id="addSoundForm">
+                            <label for="soundName">Sound Name:</label>
+                            <input type="text" id="soundName" required>
+        
+                            <label for="soundImage">Sound Image:</label>
+                            <input type="file" id="soundImage" required>
+        
+                            <button type="submit" id="submitSoundBtn">Add Sound</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
-        </button>
-    </div>
-</div>
-
-<!-- Modal Structure -->
-<div class="modal fade" id="addSoundModal" tabindex="-1" aria-labelledby="addSoundModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addSoundModalLabel">Add New Sound</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <!-- Add Sound Form -->
-<form id="addSoundForm">
-  <label for="soundName">Sound Name:</label>
-  <input type="text" id="soundName" required>
-
-  <label for="soundImage">Sound Image:</label>
-  <input type="file" id="soundImage" required>
-
-  <button type="submit">Add Sound</button>
-</form>
-
-<!-- Save Button -->
-<button id="saveButton">Save Sound</button>
-
-
-<script>
-// Open IndexedDB
-let db;
-const request = indexedDB.open("SoundsAndProfilesDB", 1);
-
-request.onupgradeneeded = function(event) {
-    db = event.target.result;
-    
-    // Create an object store for sounds if it doesn't exist
-    if (!db.objectStoreNames.contains("sounds")) {
-        db.createObjectStore("sounds", { keyPath: "id", autoIncrement: true });
-    }
-
-    // Create an object store for user profiles if it doesn't exist
-    if (!db.objectStoreNames.contains("profiles")) {
-        db.createObjectStore("profiles", { keyPath: "id", autoIncrement: true });
-    }
-};
-
-request.onsuccess = function(event) {
-    db = event.target.result;
-};
-
-request.onerror = function(event) {
-    console.log("Error opening database", event);
-};
-
-// Save sound data to IndexedDB
-function saveSoundToDB(soundName, soundImage) {
-    const transaction = db.transaction(["sounds"], "readwrite");
-    const store = transaction.objectStore("sounds");
-
-    const soundData = {
-        name: soundName,
-        image: URL.createObjectURL(soundImage),
-        dateAdded: new Date().toISOString()
-    };
-
-    const request = store.add(soundData);
-
-    request.onsuccess = function() {
-        console.log("Sound saved successfully!");
-    };
-
-    request.onerror = function(event) {
-        console.log("Error saving sound to DB", event);
-    };
-}
-
-// Save user profile data to IndexedDB
-function saveProfileToDB(userName, userImage) {
-    const transaction = db.transaction(["profiles"], "readwrite");
-    const store = transaction.objectStore("profiles");
-
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const profileData = {
-            name: userName,
-            image: event.target.result,  // File content (base64 data URL)
-            dateAdded: new Date().toISOString()
-        };
-
-        const request = store.add(profileData);
-
-        request.onsuccess = function() {
-            console.log("User profile saved successfully!");
-        };
-
-        request.onerror = function(event) {
-            console.log("Error saving user profile to DB", event);
-        };
-    };
-    reader.readAsDataURL(userImage);  // Read the image file as a Data URL
-}
-
-// Handle form submissions
-document.getElementById("userProfileForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent the form from reloading the page
-
-    const userName = document.getElementById("userName").value;
-    const userImage = document.getElementById("userImage").files[0];
-
-    // Save the user profile to IndexedDB
-    saveProfileToDB(userName, userImage);
-});
-
-document.getElementById("addSoundForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent the form from reloading the page
-
-    const soundName = document.getElementById("soundName").value;
-    const soundImage = document.getElementById("soundImage").files[0]; // Get the image file
-
-    // Save the sound to IndexedDB
-    saveSoundToDB(soundName, soundImage);
-});
-</script>
-<script>
-// Save sound data when the user clicks the 'Save Sound' button
-document.getElementById("saveButton").addEventListener("click", function() {
-    const soundName = "New Sound"; // Replace with dynamic data
-    const soundImage = new Blob([new Uint8Array([0x01, 0x02])], { type: "image/png" }); // Placeholder for image file
-
-    // Save to IndexedDB
-    saveSoundToDB(soundName, soundImage);
-});
-
-// Prompt user to confirm before saving sound
-function saveSoundWithConfirmation(soundName, soundImage) {
-    if (confirm("Do you want to save this sound?")) {
-        saveSoundToDB(soundName, soundImage);
-    } else {
-        console.log("User canceled the save.");
-    }
-}
-
-// Auto-save functionality for sound data
-let autoSaveTimer;
-
-function startAutoSaveTimer(soundName, soundImage) {
-    clearTimeout(autoSaveTimer); // Clear any existing timers
-    autoSaveTimer = setTimeout(() => {
-        saveSoundToDB(soundName, soundImage); // Auto-save the data after 5 seconds
-    }, 5000); // 5000 ms = 5 seconds
-}
-
-document.getElementById("soundName").addEventListener("input", function() {
-    const soundName = document.getElementById("soundName").value;
-    const soundImage = document.getElementById("soundImage").files[0];
-    startAutoSaveTimer(soundName, soundImage);
-});
-
-
-</script>
-
-            </div>
-            <div class="modal-footer">
-                
+        </div>
+        
+        
+        <script>
+            // Save sound data to localStorage
+            function saveSoundToLocalStorage(soundName, soundImage) {
+                const sounds = JSON.parse(localStorage.getItem("sounds")) || [];
+            
+                // Add the new sound to the array
+                const newSound = {
+                    name: soundName,
+                    image: soundImage,
+                    timestamp: new Date().toISOString()
+                };
+            
+                sounds.push(newSound);
+            
+                // Save the updated array back to localStorage
+                localStorage.setItem("sounds", JSON.stringify(sounds));
+            
+                // After saving, re-render the buttons to include the new sound
+                renderSounds();
+            }
+            
+            // Render sounds from localStorage
+            function renderSounds() {
+                const sounds = JSON.parse(localStorage.getItem("sounds")) || [];
+            
+                const buttonContainer = document.querySelector('.row-cols-6');
+            
+                // Clear existing buttons
+                buttonContainer.innerHTML = '';
+            
+                // Generate buttons for each sound
+                sounds.forEach(sound => {
+                    const buttonElement = document.createElement('div');
+                    buttonElement.classList.add('col', 'button-container');
+                    buttonElement.innerHTML = `
+                        <button class="btn btn-primary grid-button button-with-sections" data-text="${sound.name}">
+                            <div class="button-image-container">
+                                <img src="${sound.image}" alt="${sound.name}">
+                            </div>
+                            <div class="button-text-container">
+                                ${sound.name}
+                            </div>
+                        </button>
+                    `;
+                    buttonContainer.appendChild(buttonElement);
+                });
+            
+                // Reattach speech synthesis functionality to all buttons
+                attachSpeechSynthesis();
+            }
+            
+            // Function to attach speech synthesis to each button
+            function attachSpeechSynthesis() {
+                const buttons = document.querySelectorAll('.grid-button');
+            
+                buttons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const text = button.getAttribute('data-text');
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        speechSynthesis.speak(utterance);
+                    });
+                });
+            }
+            
+            // Handle form submission to add new sound
+            document.getElementById("addSoundForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
+            
+                const soundName = document.getElementById("soundName").value.trim();
+                const soundImageFile = document.getElementById("soundImage").files[0];
+            
+                if (!soundName || !soundImageFile) {
+                    alert("Please provide both a sound name and an image.");
+                    return;
+                }
+            
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const soundImage = reader.result; // Get the base64-encoded image
+            
+                    // Save the sound data to localStorage
+                    saveSoundToLocalStorage(soundName, soundImage);
+                };
+            
+                reader.readAsDataURL(soundImageFile); // Convert image to base64
+            });
+            
+            // Initialize on page load
+            window.addEventListener('load', () => {
+                // Render sounds when the page loads
+                renderSounds();
+            });
+            
+            // Auto-save functionality for sound data
+            let autoSaveTimer;
+            
+            function startAutoSaveTimer(soundName, soundImage) {
+                clearTimeout(autoSaveTimer); // Clear any existing timers
+                autoSaveTimer = setTimeout(() => {
+                    saveSoundToLocalStorage(soundName, soundImage); // Auto-save the data after 5 seconds
+                }, 5000); // 5000 ms = 5 seconds
+            }
+            
+            document.getElementById("soundName").addEventListener("input", function () {
+                const soundName = document.getElementById("soundName").value;
+                const soundImage = document.getElementById("soundImage").files[0];
+            
+                if (soundName && soundImage) {
+                    startAutoSaveTimer(soundName, soundImage);
+                }
+            });
+            
+            </script>
+            
+        
             </div>
         </div>
     </div>
