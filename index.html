@@ -225,20 +225,114 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="addSoundForm">
-                    <div class="mb-3">
-                        <label for="soundName" class="form-label">Sound Name</label>
-                        <input type="text" class="form-control" id="soundName" placeholder="Enter sound name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="soundImage" class="form-label">Upload Image (Optional)</label>
-                        <input type="file" class="form-control" id="soundImage" accept="image/*">
-                    </div>
-                </form>
+               <!-- Add Sound Form -->
+<form id="addSoundForm">
+  <label for="soundName">Sound Name:</label>
+  <input type="text" id="soundName" required>
+
+  <label for="soundImage">Sound Image:</label>
+  <input type="file" id="soundImage" required>
+
+  <button type="submit">Add Sound</button>
+</form>
+
+<!-- Save Button -->
+<button id="saveButton">Save Sound</button>
+
+
+<script>
+// Open IndexedDB
+let db;
+const request = indexedDB.open("SoundsDB", 1);
+
+request.onupgradeneeded = function(event) {
+    db = event.target.result;
+    if (!db.objectStoreNames.contains("sounds")) {
+        db.createObjectStore("sounds", { keyPath: "id", autoIncrement: true });
+    }
+};
+
+request.onsuccess = function(event) {
+    db = event.target.result;
+};
+
+request.onerror = function(event) {
+    console.log("Error opening database", event);
+};
+
+// Save sound data to IndexedDB
+function saveSoundToDB(soundName, soundImage) {
+    const transaction = db.transaction(["sounds"], "readwrite");
+    const store = transaction.objectStore("sounds");
+
+    const soundData = {
+        name: soundName,
+        image: URL.createObjectURL(soundImage), // Image URL for the file
+        dateAdded: new Date().toISOString()
+    };
+
+    const request = store.add(soundData);
+
+    request.onsuccess = function() {
+        console.log("Sound saved successfully!");
+    };
+
+    request.onerror = function(event) {
+        console.log("Error saving sound to DB", event);
+    };
+}
+
+// Listen for form submission to save data
+document.getElementById("addSoundForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the form from reloading the page
+
+    const soundName = document.getElementById("soundName").value;
+    const soundImage = document.getElementById("soundImage").files[0]; // Get the image file
+
+    // Save the sound to IndexedDB
+    saveSoundToDB(soundName, soundImage);
+});
+
+// Save sound data when the user clicks the 'Save Sound' button
+document.getElementById("saveButton").addEventListener("click", function() {
+    const soundName = "New Sound"; // Replace with dynamic data
+    const soundImage = new Blob([new Uint8Array([0x01, 0x02])], { type: "image/png" }); // Placeholder for image file
+
+    // Save to IndexedDB
+    saveSoundToDB(soundName, soundImage);
+});
+
+// Prompt user to confirm before saving
+function saveSoundWithConfirmation(soundName, soundImage) {
+    if (confirm("Do you want to save this sound?")) {
+        saveSoundToDB(soundName, soundImage);
+    } else {
+        console.log("User canceled the save.");
+    }
+}
+
+// Auto-save functionality
+let autoSaveTimer;
+
+// Call this function when the user makes an edit
+function startAutoSaveTimer(soundName, soundImage) {
+    clearTimeout(autoSaveTimer); // Clear any existing timers
+    autoSaveTimer = setTimeout(() => {
+        saveSoundToDB(soundName, soundImage); // Auto-save the data after 5 seconds
+    }, 5000); // 5000 ms = 5 seconds
+}
+
+// Example usage: When user starts typing, auto-save after 5 seconds
+document.getElementById("soundName").addEventListener("input", function() {
+    const soundName = document.getElementById("soundName").value;
+    const soundImage = document.getElementById("soundImage").files[0];
+    startAutoSaveTimer(soundName, soundImage);
+});
+</script>
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" form="addSoundForm" class="btn btn-primary">Add Sound</button>
+                
             </div>
         </div>
     </div>
