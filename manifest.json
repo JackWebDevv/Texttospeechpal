@@ -2,7 +2,7 @@
     "name": "Speech Pal",
     "short_name": "SpeechPal",
     "description": "SpeechPal Speaking Assistant.",
-    "start_url": "/",
+    "start_url": "https://jackwebdevv.github.io/Texttospeechpal/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#0d6efd",
