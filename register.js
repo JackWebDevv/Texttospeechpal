@@ -1,64 +1,154 @@
-// When the form is submitted, save user data to localStorage and update the navbar
-document.getElementById("userProfileForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent form reload
+// Constants
+const STORAGE_KEY = 'userProfile';
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
-    const userName = document.getElementById("registerUserName").value.trim();
-    const userImage = document.getElementById("registerUserImage").files[0];
+// Handle form submission
+document.getElementById("userProfileForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
 
+    try {
+        const userName = document.getElementById("registerUserName").value.trim();
+        const userImage = document.getElementById("registerUserImage").files[0];
+
+        // Validate inputs
+        validateInputs(userName, userImage);
+
+        // Process image
+        const base64Image = await processImage(userImage);
+
+        // Save profile data
+        const profileData = {
+            name: userName,
+            image: base64Image,
+            updatedAt: new Date().toISOString()
+        };
+
+        saveProfileData(profileData);
+        updateNavBar(profileData);
+
+        // Close modal if it exists
+        const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+        if (modal) {
+            modal.hide();
+        }
+
+    } catch (error) {
+        alert(error.message || 'An error occurred while saving your profile.');
+        console.error('Profile save error:', error);
+    }
+});
+
+// Validate form inputs
+function validateInputs(userName, userImage) {
     if (!userName) {
-        alert("Please enter your username.");
-        return;
+        throw new Error('Please enter your username.');
     }
 
     if (!userImage) {
-        alert("Please upload a profile image.");
-        return;
+        throw new Error('Please upload a profile image.');
     }
 
-    const reader = new FileReader();
+    if (!userImage.type.startsWith('image/')) {
+        throw new Error('Please upload a valid image file.');
+    }
 
-    reader.onload = function (event) {
-        const base64Image = event.target.result;
+    if (userImage.size > MAX_IMAGE_SIZE) {
+        throw new Error('Image size should be less than 5MB.');
+    }
+}
 
-        // Create a profile object
-        const profileData = {
-            name: userName,
-            image: base64Image
+// Process image file
+function processImage(imageFile) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        
+        reader.onload = function (event) {
+            resolve(event.target.result);
         };
 
-        // Save to localStorage
-        localStorage.setItem("userProfile", JSON.stringify(profileData));
+        reader.onerror = function () {
+            reject(new Error('Failed to process the image. Please try again.'));
+        };
 
-        // Update the navbar with user data
-        updateNavBar(profileData);
-    };
+        reader.readAsDataURL(imageFile);
+    });
+}
 
-    reader.onerror = function () {
-        alert("Failed to process the image. Please try again.");
-    };
+// Save profile data to localStorage
+function saveProfileData(profileData) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(profileData));
+    } catch (error) {
+        console.error('Storage error:', error);
+        throw new Error('Failed to save profile data. Please try again.');
+    }
+}
 
-    reader.readAsDataURL(userImage);
-});
-
-// Function to update the navbar with the user's greeting and profile picture
+// Update navbar with user data
 function updateNavBar(profileData) {
     const greetingElement = document.getElementById("greeting");
     const profilePicElement = document.getElementById("profilePic");
 
-    // Update the greeting text
-    greetingElement.textContent = `Hello, ${profileData.name}!`;
+    if (!greetingElement || !profilePicElement) {
+        console.error('Navbar elements not found');
+        return;
+    }
 
-    // Update the profile picture
+    greetingElement.textContent = `Hello, ${profileData.name}!`;
     profilePicElement.src = profileData.image;
+    profilePicElement.alt = `${profileData.name}'s profile picture`;
     profilePicElement.classList.remove("d-none");
 }
 
-// Load the user data from localStorage on page load and update the navbar
-document.addEventListener("DOMContentLoaded", function () {
-    const savedProfile = localStorage.getItem("userProfile");
+// Add image preview functionality
+document.getElementById("registerUserImage").addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        try {
+            validateInputs('placeholder', file); // Check file type and size
+            
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const previewContainer = document.getElementById("imagePreviewContainer") || createPreviewContainer();
+                const previewImg = previewContainer.querySelector("img") || document.createElement("img");
+                
+                previewImg.src = e.target.result;
+                previewImg.alt = "Profile picture preview";
+                previewImg.className = "img-preview rounded mt-2";
+                previewImg.style.maxWidth = "150px";
+                previewImg.style.height = "auto";
+                
+                if (!previewContainer.contains(previewImg)) {
+                    previewContainer.appendChild(previewImg);
+                }
+            };
+            reader.readAsDataURL(file);
+        } catch (error) {
+            alert(error.message);
+            this.value = ''; // Reset file input
+        }
+    }
+});
 
-    if (savedProfile) {
-        const profile = JSON.parse(savedProfile);
-        updateNavBar(profile);
+// Create preview container
+function createPreviewContainer() {
+    const container = document.createElement("div");
+    container.id = "imagePreviewContainer";
+    container.className = "text-center mt-2";
+    const form = document.getElementById("registerUserImage").closest("form");
+    form.insertBefore(container, form.querySelector("button"));
+    return container;
+}
+
+// Load profile data on page load
+document.addEventListener("DOMContentLoaded", function () {
+    try {
+        const savedProfile = localStorage.getItem(STORAGE_KEY);
+        if (savedProfile) {
+            const profile = JSON.parse(savedProfile);
+            updateNavBar(profile);
+        }
+    } catch (error) {
+        console.error('Error loading profile:', error);
     }
 });
